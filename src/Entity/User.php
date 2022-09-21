@@ -3,6 +3,8 @@
 namespace App\Entity;
 
 use App\Repository\UserRepository;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
 use Symfony\Component\Security\Core\User\UserInterface;
@@ -19,6 +21,9 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\Column(length: 180, unique: true)]
     private ?string $username = null;
 
+    /**
+     * @var string[]
+     */
     #[ORM\Column]
     private array $roles = [];
 
@@ -27,6 +32,17 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
      */
     #[ORM\Column]
     private ?string $password = null;
+
+    /**
+     * @var Collection<int, Bid>
+     */
+    #[ORM\OneToMany(mappedBy: 'bidder', targetEntity: Bid::class)]
+    private Collection $bids;
+
+    public function __construct()
+    {
+        $this->bids = new ArrayCollection();
+    }
 
     public function getId(): ?int
     {
@@ -56,6 +72,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     }
 
     /**
+     * @return string[]
      * @see UserInterface
      */
     public function getRoles(): array
@@ -67,6 +84,9 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         return array_unique($roles);
     }
 
+    /**
+     * @param string[] $roles
+     */
     public function setRoles(array $roles): self
     {
         $this->roles = $roles;
@@ -92,9 +112,39 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     /**
      * @see UserInterface
      */
-    public function eraseCredentials()
+    public function eraseCredentials(): void
     {
         // If you store any temporary, sensitive data on the user, clear it here
         // $this->plainPassword = null;
+    }
+
+    /**
+     * @return Collection<int, Bid>
+     */
+    public function getBids(): Collection
+    {
+        return $this->bids;
+    }
+
+    public function addBid(Bid $bid): self
+    {
+        if (!$this->bids->contains($bid)) {
+            $this->bids->add($bid);
+            $bid->setBidder($this);
+        }
+
+        return $this;
+    }
+
+    public function removeBid(Bid $bid): self
+    {
+        if ($this->bids->removeElement($bid)) {
+            // set the owning side to null (unless already changed)
+            if ($bid->getBidder() === $this) {
+                $bid->setBidder(null);
+            }
+        }
+
+        return $this;
     }
 }
