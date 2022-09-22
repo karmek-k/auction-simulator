@@ -5,6 +5,7 @@ namespace App\Entity;
 use App\Repository\AuctionRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
+use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 
 #[ORM\Entity(repositoryClass: AuctionRepository::class)]
@@ -26,6 +27,9 @@ class Auction
 
     #[ORM\Column]
     private ?\DateTimeImmutable $endingDate = null;
+
+    #[ORM\Column(type: Types::TEXT, nullable: true)]
+    private ?string $picture = null;
 
     public function __construct()
     {
@@ -87,6 +91,18 @@ class Auction
     public function setEndingDate(\DateTimeImmutable $endingDate): self
     {
         $this->endingDate = $endingDate;
+
+        return $this;
+    }
+
+    public function getPicture(): ?string
+    {
+        return $this->picture;
+    }
+
+    public function setPicture(?string $picture): self
+    {
+        $this->picture = $picture;
 
         return $this;
     }
