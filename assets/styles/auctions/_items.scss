@@ -11,10 +11,9 @@ $auctionHeight: 300px;
   list-style: none;
 
   width: $auctionWidth;
-  height: $auctionHeight;
 
   .auction-img {
-    height: inherit;
+    height: $auctionHeight;
 
     img {
       object-fit: scale-down;
@@ -30,6 +29,12 @@ $auctionHeight: 300px;
   justify-content: space-between;
   align-items: center;
 
+  margin: 1.5rem 0;
+
+  * {
+    margin: 0;
+  }
+
   .auction-name {
     width: 100%;
     font-size: 24pt;
@@ -39,9 +44,14 @@ $auctionHeight: 300px;
   .auction-bid {
     font-size: 16pt;
     text-align: center;
-  }
-}
 
-.no-bids {
-  color: red;
+    background-color: #5eb5e0;
+    color: #F5F5F5;
+    width: 20%;
+    height: 100%
+  }
+
+  .no-bids {
+    background-color: #B0413E;
+  }
 }
