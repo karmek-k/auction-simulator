@@ -4,53 +4,23 @@
 
 {% block body %}
 <ul class="auction-container">
-    <li class="auction">
-        <div class="auction-img">
-            <img
-                src="https://cdn.mos.cms.futurecdn.net/uFsipYMbh4cMAU7Fcp4ZPK.jpg"
-                alt="Dj0nt rig"
-            />
-        </div>
-        <div class="auction-details">
-            <p class="auction-name">
-                <strong>Dj0nt guitar</strong>
-            </p>
-            <p class="auction-bid no-bids">
-                no bids
-            </p>
-        </div>
-    </li>
-    <li class="auction">
-        <div class="auction-img">
-            <img
-                    src="https://64.media.tumblr.com/8e7c44f46b60d60868693aec3c4c6e63/tumblr_nbe5kjKVTp1rx3pkto7_500.jpg"
-                    alt="skervesen"
-            />
-        </div>
-        <div class="auction-details">
-            <p class="auction-name">
-                <strong>skervesen</strong>
-            </p>
-            <p class="auction-bid no-bids">
-                no bids
-            </p>
-        </div>
-    </li>
-    <li class="auction">
-        <div class="auction-img">
-            <img
-                    src="https://images.huffingtonpost.com/2016-10-19-1476889288-9555502-octobasse_osm.jpg"
-                    alt="giant bass"
-            />
-        </div>
-        <div class="auction-details">
-            <p class="auction-name">
-                <strong>giant bass</strong>
-            </p>
-            <p class="auction-bid">
-                100,000
-            </p>
-        </div>
-    </li>
+    {% for auction in auctions %}
+        <li class="auction">
+            <div class="auction-img">
+                <img
+                    src="{{ auction.picture }}"
+                    alt="{{ auction.name }}"
+                />
+            </div>
+            <div class="auction-details">
+                <p class="auction-name">
+                    <strong>{{ auction.name }}</strong>
+                </p>
+                <p class="auction-bid">
+                    {{ auction.highestBid }}
+                </p>
+            </div>
+        </li>
+    {% endfor %}
 </ul>
 {% endblock %}

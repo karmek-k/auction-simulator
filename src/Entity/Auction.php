@@ -106,4 +106,9 @@ class Auction
 
         return $this;
     }
+
+    public function highestBid(): ?Bid
+    {
+        return $this->bids->first() ?: null;
+    }
 }

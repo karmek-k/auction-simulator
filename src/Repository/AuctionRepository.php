@@ -39,6 +39,18 @@ class AuctionRepository extends ServiceEntityRepository
         }
     }
 
+    /** @return Auction[] */
+    public function findActive(): array
+    {
+        $date = new \DateTime();
+
+        return $this->createQueryBuilder('a')
+            ->where('a.endingDate < :date')
+            ->setParameter('date', $date->format('Y-m-d 00:00:00'))
+            ->getQuery()
+            ->getResult();
+    }
+
 //    /**
 //     * @return Auction[] Returns an array of Auction objects
 //     */
